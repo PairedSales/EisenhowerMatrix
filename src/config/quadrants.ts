@@ -5,7 +5,7 @@ export interface QuadrantConfig {
   id: QuadrantId;
   title: string;
   description: string;
-  icon: any;
+  icon: React.ElementType;
   colorClass: string;
   emptyState: string;
 }

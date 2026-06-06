@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -25,13 +25,6 @@ export const TaskCard = ({ task }: TaskCardProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(task.title);
   const [editNotes, setEditNotes] = useState(task.notes || '');
-
-  useEffect(() => {
-    if (!isEditing) {
-      setEditTitle(task.title);
-      setEditNotes(task.notes || '');
-    }
-  }, [task, isEditing]);
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -161,7 +154,11 @@ export const TaskCard = ({ task }: TaskCardProps) => {
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          onClick={() => setIsEditing(true)}
+          onClick={() => {
+            setEditTitle(task.title);
+            setEditNotes(task.notes || '');
+            setIsEditing(true);
+          }}
           className="p-1.5 text-stone-400 hover:text-stone-700 hover:bg-stone-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-stone-300"
           aria-label="Edit task"
         >
