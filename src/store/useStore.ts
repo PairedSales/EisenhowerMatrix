@@ -6,7 +6,6 @@ import type { Task, QuadrantId } from '../types';
 interface UIState {
   searchQuery: string;
   showCompleted: boolean;
-  theme: 'light' | 'dark';
   collapsedQuadrants: QuadrantId[];
   _hasHydrated: boolean;
 }
@@ -26,7 +25,6 @@ interface StoreActions {
   clearCompleted: () => void;
   setSearchQuery: (query: string) => void;
   setShowCompleted: (show: boolean) => void;
-  setTheme: (theme: 'light' | 'dark') => void;
   toggleQuadrantCollapse: (quadrantId: QuadrantId) => void;
   importState: (newState: StoreState) => void;
   setHasHydrated: (state: boolean) => void;
@@ -37,7 +35,6 @@ type Store = StoreState & { actions: StoreActions };
 const initialUIState: UIState = {
   searchQuery: '',
   showCompleted: true,
-  theme: 'light',
   collapsedQuadrants: [],
   _hasHydrated: false,
 };
@@ -169,7 +166,6 @@ export const useStore = create<Store>()(
         },
         setSearchQuery: (query) => set((state) => ({ ui: { ...state.ui, searchQuery: query } })),
         setShowCompleted: (show) => set((state) => ({ ui: { ...state.ui, showCompleted: show } })),
-        setTheme: (theme) => set((state) => ({ ui: { ...state.ui, theme } })),
         toggleQuadrantCollapse: (quadrantId) => set((state) => {
           const collapsed = state.ui.collapsedQuadrants;
           const newCollapsed = collapsed.includes(quadrantId)
