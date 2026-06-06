@@ -1,7 +1,7 @@
 
 import { useDroppable } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { ChevronDown, ChevronRight, Plus } from 'lucide-react';
+import { ChevronDown, Plus } from 'lucide-react';
 import { QUADRANTS } from '../config/quadrants';
 import type { QuadrantId } from '../types';
 import { useFilteredAndSortedTasks } from '../store/selectors';
@@ -9,6 +9,17 @@ import { TaskCard } from './TaskCard';
 import { useUI, useActions } from '../store/useStore';
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { motion, AnimatePresence } from 'framer-motion';
+import type { Variants } from 'framer-motion';
+
+const quadrantVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { 
+    opacity: 1, 
+    y: 0,
+    transition: { type: 'spring', stiffness: 300, damping: 24 }
+  }
+};
 
 interface QuadrantProps {
   id: QuadrantId;
@@ -29,17 +40,20 @@ export const Quadrant = ({ id }: QuadrantProps) => {
   });
 
   return (
-    <div 
+    <motion.div 
+      variants={quadrantVariants}
       className={twMerge(
         clsx(
-          "flex flex-col rounded-2xl border backdrop-blur-xl shadow-sm transition-all duration-300 overflow-hidden h-full min-h-[150px] md:min-h-0",
+          "flex flex-col rounded-2xl border backdrop-blur-xl shadow-sm transition-shadow duration-300 overflow-hidden h-full min-h-[150px] md:min-h-0",
           config.colorClass,
           isOver && "ring-2 ring-stone-400 ring-offset-2 ring-offset-stone-50 scale-[1.01] shadow-md"
         )
       )}
     >
-      <div 
-        className="p-4 sm:p-5 flex items-center justify-between cursor-pointer hover:bg-black/5 transition-colors"
+      <motion.div 
+        whileHover={{ backgroundColor: 'rgba(0,0,0,0.02)' }}
+        whileTap={{ scale: 0.995 }}
+        className="p-4 sm:p-5 flex items-center justify-between cursor-pointer transition-colors"
         onClick={() => toggleQuadrantCollapse(id)}
         aria-expanded={!isCollapsed}
         role="button"
@@ -58,41 +72,65 @@ export const Quadrant = ({ id }: QuadrantProps) => {
           <span className="text-sm font-medium bg-white/60 px-2.5 py-1 rounded-full shadow-sm">
             {tasks.length}
           </span>
-          {isCollapsed ? <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" /> : <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5" />}
+          <motion.div
+            animate={{ rotate: isCollapsed ? -90 : 0 }}
+            transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
+          >
+            <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5" />
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
 
-      <div 
+      <motion.div 
         ref={setNodeRef}
-        className={clsx(
-          "flex-1 p-2 sm:p-4 overflow-y-auto transition-all",
-          isCollapsed ? "hidden" : "block"
-        )}
+        initial={false}
+        animate={{ 
+          height: isCollapsed ? 0 : 'auto', 
+          opacity: isCollapsed ? 0 : 1
+        }}
+        style={{ overflow: isCollapsed ? 'hidden' : 'auto' }}
+        transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
+        className="flex-1 overflow-x-hidden"
       >
-        <SortableContext 
-          items={tasks.map(t => t.id)} 
-          strategy={verticalListSortingStrategy}
-        >
-          {tasks.map(task => (
-            <TaskCard key={task.id} task={task} />
-          ))}
-        </SortableContext>
+        <div className="p-2 sm:p-4 min-h-full flex flex-col">
+          <SortableContext 
+            items={tasks.map(t => t.id)} 
+            strategy={verticalListSortingStrategy}
+          >
+            <AnimatePresence initial={false}>
+              {tasks.map(task => (
+                <TaskCard key={task.id} task={task} />
+              ))}
+            </AnimatePresence>
+          </SortableContext>
 
-        {tasks.length === 0 && !isCollapsed && (
-          <div className="h-full min-h-[120px] flex flex-col items-center justify-center text-center opacity-50 border border-dashed border-current rounded-xl p-6 m-2 transition-all">
-            <p className="text-sm font-medium mb-3">A peaceful space. No tasks yet.</p>
-            <button 
-              onClick={(e) => {
-                e.stopPropagation();
-                addTask('New Task', id);
-              }}
-              className="flex items-center gap-1.5 text-xs px-4 py-2 bg-white/60 hover:bg-white rounded-lg transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-stone-400 font-medium"
-            >
-              <Plus className="w-3.5 h-3.5" /> Add Task
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
+          <AnimatePresence>
+            {tasks.length === 0 && (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+                className="flex-1 min-h-[120px] flex flex-col items-center justify-center text-center opacity-60 border border-dashed border-current rounded-xl p-6 m-2 transition-all"
+              >
+                <Icon className="w-8 h-8 mb-3 opacity-20" />
+                <p className="text-sm font-medium mb-4 max-w-[200px] leading-relaxed">{config.emptyState}</p>
+                <motion.button 
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addTask('New Task', id);
+                  }}
+                  className="flex items-center gap-1.5 text-xs px-4 py-2 bg-white/60 hover:bg-white rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-stone-400 font-medium transition-colors"
+                >
+                  <Plus className="w-3.5 h-3.5" /> Add Task
+                </motion.button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </motion.div>
+    </motion.div>
   );
 };

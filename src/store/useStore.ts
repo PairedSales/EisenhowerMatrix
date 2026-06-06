@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { temporal } from 'zundo';
+import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
 import type { Task, QuadrantId } from '../types';
 
@@ -40,7 +42,8 @@ const initialUIState: UIState = {
 };
 
 export const useStore = create<Store>()(
-  persist(
+  temporal(
+    persist(
     (set, get) => ({
       tasks: {},
       ui: initialUIState,
@@ -87,6 +90,12 @@ export const useStore = create<Store>()(
             const newTasks = { ...state.tasks };
             delete newTasks[id];
             return { tasks: newTasks };
+          });
+          toast('Task deleted', {
+            action: {
+              label: 'Undo',
+              onClick: () => useStore.temporal.getState().undo()
+            }
           });
         },
         moveTask: (id, toQuadrantId, newOrder) => {
@@ -163,6 +172,12 @@ export const useStore = create<Store>()(
             }
             return { tasks: newTasks };
           });
+          toast('Completed tasks cleared', {
+            action: {
+              label: 'Undo',
+              onClick: () => useStore.temporal.getState().undo()
+            }
+          });
         },
         setSearchQuery: (query) => set((state) => ({ ui: { ...state.ui, searchQuery: query } })),
         setShowCompleted: (show) => set((state) => ({ ui: { ...state.ui, showCompleted: show } })),
@@ -193,7 +208,9 @@ export const useStore = create<Store>()(
         }
       },
     }
-  )
+  ), {
+    partialize: (state) => ({ tasks: state.tasks }),
+  })
 );
 
 export const useTasks = () => useStore(state => state.tasks);

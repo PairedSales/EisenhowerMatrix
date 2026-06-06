@@ -16,6 +16,17 @@ import type { QuadrantId } from '../types';
 import { Quadrant } from './Quadrant';
 import { TaskCard } from './TaskCard';
 import { useStore, useActions } from '../store/useStore';
+import { motion } from 'framer-motion';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
 
 export const MatrixBoard = () => {
   const tasks = useStore(state => state.tasks);
@@ -145,12 +156,17 @@ export const MatrixBoard = () => {
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 p-2 h-full overflow-y-auto md:overflow-hidden">
+      <motion.div 
+        className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 p-2 h-full overflow-y-auto md:overflow-hidden"
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+      >
         <Quadrant id="do" />
         <Quadrant id="schedule" />
         <Quadrant id="delegate" />
         <Quadrant id="eliminate" />
-      </div>
+      </motion.div>
 
       <DragOverlay dropAnimation={dropAnimation}>
         {activeTask ? <TaskCard task={activeTask} /> : null}
