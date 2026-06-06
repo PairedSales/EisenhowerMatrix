@@ -22,10 +22,12 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col overflow-hidden text-slate-900">
+    <div className="min-h-screen bg-stone-50 flex flex-col overflow-hidden text-stone-900 font-sans selection:bg-amber-100 transition-colors duration-500">
       <Toolbar />
-      <main className="flex-1 overflow-hidden">
-        <MatrixBoard />
+      <main className="flex-1 overflow-hidden px-4 pb-4 sm:px-6 sm:pb-6 md:px-8 md:pb-8 flex flex-col">
+        <div className="flex-1 max-w-7xl mx-auto w-full h-full">
+          <MatrixBoard />
+        </div>
       </main>
     </div>
   );

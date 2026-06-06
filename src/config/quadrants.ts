@@ -12,30 +12,30 @@ export interface QuadrantConfig {
 export const QUADRANTS: Record<QuadrantId, QuadrantConfig> = {
   do: {
     id: 'do',
-    title: 'Do',
+    title: 'Do First',
     description: 'Urgent & Important',
     icon: AlertCircle,
-    colorClass: 'bg-red-50 border-red-200 text-red-900',
+    colorClass: 'bg-amber-50/80 border-amber-200/60 text-amber-950',
   },
   schedule: {
     id: 'schedule',
     title: 'Schedule',
     description: 'Not Urgent & Important',
     icon: Calendar,
-    colorClass: 'bg-blue-50 border-blue-200 text-blue-900',
+    colorClass: 'bg-teal-50/80 border-teal-200/60 text-teal-950',
   },
   delegate: {
     id: 'delegate',
     title: 'Delegate',
     description: 'Urgent & Not Important',
     icon: Users,
-    colorClass: 'bg-fuchsia-50 border-fuchsia-200 text-fuchsia-900',
+    colorClass: 'bg-orange-50/80 border-orange-200/60 text-orange-950',
   },
   eliminate: {
     id: 'eliminate',
     title: 'Eliminate',
     description: 'Not Urgent & Not Important',
     icon: Trash2,
-    colorClass: 'bg-slate-50 border-slate-200 text-slate-900',
+    colorClass: 'bg-stone-100/80 border-stone-200/60 text-stone-600',
   },
 };

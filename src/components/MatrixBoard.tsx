@@ -130,7 +130,8 @@ export const MatrixBoard = () => {
     sideEffects: defaultDropAnimationSideEffects({
       styles: {
         active: {
-          opacity: '0.4',
+          opacity: '0.5',
+          transform: 'scale(1.02)',
         },
       },
     }),
@@ -144,7 +145,7 @@ export const MatrixBoard = () => {
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 p-4 sm:p-6 h-[calc(100vh-140px)] sm:h-[calc(100vh-80px)] overflow-y-auto md:overflow-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 p-2 h-full overflow-y-auto md:overflow-hidden">
         <Quadrant id="do" />
         <Quadrant id="schedule" />
         <Quadrant id="delegate" />

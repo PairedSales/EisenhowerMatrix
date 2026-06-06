@@ -32,31 +32,30 @@ export const Quadrant = ({ id }: QuadrantProps) => {
     <div 
       className={twMerge(
         clsx(
-          "flex flex-col rounded-xl border-2 transition-colors overflow-hidden h-full min-h-[150px] md:min-h-0",
+          "flex flex-col rounded-2xl border backdrop-blur-xl shadow-sm transition-all duration-300 overflow-hidden h-full min-h-[150px] md:min-h-0",
           config.colorClass,
-          isOver && "ring-2 ring-blue-500 ring-offset-2",
-          "bg-opacity-50 backdrop-blur-sm"
+          isOver && "ring-2 ring-stone-400 ring-offset-2 ring-offset-stone-50 scale-[1.01] shadow-md"
         )
       )}
     >
       <div 
-        className="p-3 sm:p-4 flex items-center justify-between cursor-pointer hover:bg-black/5 transition-colors"
+        className="p-4 sm:p-5 flex items-center justify-between cursor-pointer hover:bg-black/5 transition-colors"
         onClick={() => toggleQuadrantCollapse(id)}
         aria-expanded={!isCollapsed}
         role="button"
         tabIndex={0}
       >
-        <div className="flex items-center gap-2 sm:gap-3 overflow-hidden">
-          <div className="p-1.5 sm:p-2 bg-white rounded-lg shadow-sm shrink-0">
+        <div className="flex items-center gap-3 sm:gap-4 overflow-hidden">
+          <div className="p-2 bg-white/80 rounded-xl shadow-sm shrink-0">
             <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
           </div>
           <div className="min-w-0">
-            <h2 className="font-bold text-sm sm:text-base truncate">{config.title}</h2>
-            <p className="text-xs opacity-80 truncate hidden sm:block">{config.description}</p>
+            <h2 className="font-semibold text-base sm:text-lg tracking-tight truncate">{config.title}</h2>
+            <p className="text-xs sm:text-sm opacity-80 truncate hidden sm:block font-medium">{config.description}</p>
           </div>
         </div>
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          <span className="text-xs sm:text-sm font-medium bg-white/50 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full">
+          <span className="text-sm font-medium bg-white/60 px-2.5 py-1 rounded-full shadow-sm">
             {tasks.length}
           </span>
           {isCollapsed ? <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" /> : <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5" />}
@@ -80,16 +79,16 @@ export const Quadrant = ({ id }: QuadrantProps) => {
         </SortableContext>
 
         {tasks.length === 0 && !isCollapsed && (
-          <div className="h-full min-h-[120px] flex flex-col items-center justify-center text-center opacity-60 border-2 border-dashed border-current rounded-lg p-4 m-2">
-            <p className="text-sm font-medium mb-2">No tasks here</p>
+          <div className="h-full min-h-[120px] flex flex-col items-center justify-center text-center opacity-50 border border-dashed border-current rounded-xl p-6 m-2 transition-all">
+            <p className="text-sm font-medium mb-3">A peaceful space. No tasks yet.</p>
             <button 
               onClick={(e) => {
                 e.stopPropagation();
                 addTask('New Task', id);
               }}
-              className="flex items-center gap-1 text-xs px-3 py-1.5 bg-white/50 hover:bg-white rounded-md transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex items-center gap-1.5 text-xs px-4 py-2 bg-white/60 hover:bg-white rounded-lg transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-stone-400 font-medium"
             >
-              <Plus className="w-3 h-3" /> Add Task
+              <Plus className="w-3.5 h-3.5" /> Add Task
             </button>
           </div>
         )}

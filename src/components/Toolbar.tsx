@@ -38,25 +38,25 @@ export const Toolbar = () => {
   };
 
   return (
-    <div className="flex flex-col gap-4 p-4 bg-white border-b border-slate-200">
-      <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-        <h1 className="text-xl sm:text-2xl font-bold text-slate-800 hidden sm:block">Eisenhower Matrix</h1>
+    <div className="flex flex-col gap-6 px-4 py-6 sm:px-6 sm:py-8 bg-stone-50/80 backdrop-blur-md">
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
+        <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-stone-800 hidden sm:block">Eisenhower</h1>
         
         <div className="flex-1 w-full sm:w-auto max-w-md">
           <SearchBar />
         </div>
 
-        <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
-          <label className="flex items-center gap-2 cursor-pointer text-sm font-medium text-slate-700">
+        <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
+          <label className="flex items-center gap-2 cursor-pointer text-sm font-medium text-stone-600 hover:text-stone-900 transition-colors">
             <input 
               type="checkbox" 
               checked={showCompleted} 
               onChange={(e) => setShowCompleted(e.target.checked)} 
-              className="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+              className="rounded border-stone-300 text-stone-600 focus:ring-stone-500 transition-all cursor-pointer"
             />
             Show Completed
           </label>
-          <div className="w-px h-6 bg-slate-300 mx-2 hidden sm:block"></div>
+          <div className="w-px h-6 bg-stone-200 mx-2 hidden sm:block"></div>
           
           <input
             type="file"
@@ -67,21 +67,21 @@ export const Toolbar = () => {
           />
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="p-2 text-slate-600 hover:bg-slate-100 rounded-md transition-colors"
+            className="p-2 text-stone-400 hover:text-stone-700 hover:bg-stone-100/50 rounded-full transition-all"
             title="Import Data"
           >
             <Upload className="w-5 h-5" />
           </button>
           <button
             onClick={handleExport}
-            className="p-2 text-slate-600 hover:bg-slate-100 rounded-md transition-colors"
+            className="p-2 text-stone-400 hover:text-stone-700 hover:bg-stone-100/50 rounded-full transition-all"
             title="Export Data"
           >
             <Download className="w-5 h-5" />
           </button>
           <button
             onClick={clearCompleted}
-            className="p-2 text-slate-600 hover:bg-slate-100 rounded-md transition-colors"
+            className="p-2 text-stone-400 hover:text-red-600 hover:bg-red-50/50 rounded-full transition-all"
             title="Clear Completed Tasks"
           >
             <Trash2 className="w-5 h-5" />
@@ -89,17 +89,17 @@ export const Toolbar = () => {
         </div>
       </div>
       
-      <form onSubmit={handleQuickAdd} className="flex gap-2">
+      <form onSubmit={handleQuickAdd} className="flex gap-3 max-w-2xl mx-auto w-full">
         <input
           type="text"
           value={newTaskTitle}
           onChange={(e) => setNewTaskTitle(e.target.value)}
-          placeholder="Quick add task..."
-          className="flex-1 px-3 py-2 bg-slate-50 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+          placeholder="What's on your mind?"
+          className="flex-1 px-4 py-3 bg-white/60 backdrop-blur-sm border-0 shadow-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-200 transition-all text-stone-800 placeholder:text-stone-400"
         />
         <button
           type="submit"
-          className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors font-medium whitespace-nowrap"
+          className="flex items-center justify-center gap-2 px-6 py-3 bg-stone-800 hover:bg-stone-900 text-stone-50 rounded-xl transition-all shadow-sm hover:shadow font-medium whitespace-nowrap"
         >
           <Plus className="w-4 h-4" /> Add
         </button>

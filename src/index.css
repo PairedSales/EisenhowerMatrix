@@ -2,6 +2,11 @@
 
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-900 antialiased;
+    @apply bg-stone-50 text-stone-900 antialiased selection:bg-amber-100 selection:text-stone-900;
+  }
+  
+  /* Smooth scrolling for a better flow */
+  html {
+    scroll-behavior: smooth;
   }
 }

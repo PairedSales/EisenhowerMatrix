@@ -12,7 +12,7 @@ export const SearchBar = () => {
       </div>
       <input
         type="text"
-        className="block w-full pl-10 pr-3 py-2 border border-slate-300 rounded-md leading-5 bg-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors"
+        className="block w-full pl-10 pr-4 py-2.5 border-0 rounded-xl leading-5 bg-white/60 backdrop-blur-sm shadow-sm placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-200 focus:bg-white text-stone-800 sm:text-sm transition-all"
         placeholder="Search tasks..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
