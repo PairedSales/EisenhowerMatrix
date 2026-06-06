@@ -5,7 +5,6 @@ import { MatrixBoard } from './components/MatrixBoard';
 import { useStore } from './store/useStore';
 
 function App() {
-  const _hasHydrated = useStore(state => state.ui._hasHydrated);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -43,7 +42,7 @@ function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  if (!mounted || !_hasHydrated) {
+  if (!mounted) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="animate-pulse flex flex-col items-center">
