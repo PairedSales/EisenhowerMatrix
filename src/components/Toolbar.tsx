@@ -12,7 +12,7 @@ export const Toolbar = () => {
   const state = useStore(state => state);
   const { clearCompleted, importState: loadState, addTask, setShowCompleted } = useActions();
   const { showCompleted } = useUI();
-  const [newTaskTitle, setNewTaskTitle] = useState('');
+
 
   const handleExportJSON = () => {
     exportState(state);
@@ -34,14 +34,6 @@ export const Toolbar = () => {
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
-  };
-
-  const handleQuickAdd = (e: FormEvent) => {
-    e.preventDefault();
-    if (!newTaskTitle.trim()) return;
-    addTask(newTaskTitle.trim(), 'do');
-    setNewTaskTitle('');
-    toast.success('Task created');
   };
 
   const pastStates = useZustandStore(useStore.temporal, (state) => state.pastStates);
@@ -130,22 +122,7 @@ export const Toolbar = () => {
           </button>
         </div>
       </div>
-      
-      <form onSubmit={handleQuickAdd} className="flex gap-3 max-w-2xl mx-auto w-full">
-        <input
-          type="text"
-          value={newTaskTitle}
-          onChange={(e) => setNewTaskTitle(e.target.value)}
-          placeholder="What's on your mind?"
-          className="flex-1 px-4 py-3 bg-white/60 backdrop-blur-sm border-0 shadow-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-200 transition-all text-stone-800 placeholder:text-stone-400"
-        />
-        <button
-          type="submit"
-          className="flex items-center justify-center gap-2 px-6 py-3 bg-stone-800 hover:bg-stone-900 text-stone-50 rounded-xl transition-all shadow-sm hover:shadow font-medium whitespace-nowrap"
-        >
-          <Plus className="w-4 h-4" /> Add
-        </button>
-      </form>
+
     </div>
   );
 };

@@ -72,6 +72,18 @@ export const Quadrant = ({ id }: QuadrantProps) => {
           <span className="text-sm font-medium bg-white/60 px-2.5 py-1 rounded-full shadow-sm">
             {tasks.length}
           </span>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={(e) => {
+              e.stopPropagation();
+              addTask('New Task', id);
+            }}
+            className="p-1 text-stone-400 hover:text-stone-800 hover:bg-stone-100 rounded-lg transition-colors focus:outline-none"
+            aria-label="Add task"
+          >
+            <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
+          </motion.button>
           <motion.div
             animate={{ rotate: isCollapsed ? -90 : 0 }}
             transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
