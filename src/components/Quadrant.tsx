@@ -127,17 +127,6 @@ export const Quadrant = ({ id }: QuadrantProps) => {
               >
                 <Icon className="w-8 h-8 mb-3 opacity-20" />
                 <p className="text-sm font-medium mb-4 max-w-[200px] leading-relaxed">{config.emptyState}</p>
-                <motion.button 
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    addTask('New Task', id);
-                  }}
-                  className="flex items-center gap-1.5 text-xs px-4 py-2 bg-white/60 hover:bg-white rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-stone-400 font-medium transition-colors"
-                >
-                  <Plus className="w-3.5 h-3.5" /> Add Task
-                </motion.button>
               </motion.div>
             )}
           </AnimatePresence>
