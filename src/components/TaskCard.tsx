@@ -112,6 +112,11 @@ export const TaskCard = ({ task }: TaskCardProps) => {
           : 'border-stone-100 hover:border-stone-200'
       }`}
       aria-label={`Task: ${task.title}`}
+      onDoubleClick={() => {
+        setEditTitle(task.title);
+        setEditNotes(task.notes || '');
+        setIsEditing(true);
+      }}
     >
       <button
         className="mt-0.5 text-stone-300 hover:text-stone-500 cursor-grab active:cursor-grabbing focus:outline-none focus:ring-2 focus:ring-stone-300 rounded opacity-0 group-hover:opacity-100 transition-opacity"
