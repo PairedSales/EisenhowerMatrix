@@ -7,6 +7,7 @@ export interface Task {
   dueDate?: string;
   quadrantId: QuadrantId;
   completed: boolean;
+  completedAt?: string;
   createdAt: string;
   updatedAt: string;
   order: number;

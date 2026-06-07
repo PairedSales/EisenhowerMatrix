@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Toaster, toast } from 'sonner';
 import { Toolbar } from './components/Toolbar';
 import { MatrixBoard } from './components/MatrixBoard';
+import { CompletedTasksOverlay } from './components/CompletedTasksOverlay';
 import { useStore } from './store/useStore';
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
           <MatrixBoard />
         </div>
       </main>
+      <CompletedTasksOverlay />
     </div>
   );
 }

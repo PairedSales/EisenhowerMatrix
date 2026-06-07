@@ -1,17 +1,16 @@
-import { useRef, useState } from 'react';
-import type { ChangeEvent, FormEvent } from 'react';
+import { useRef } from 'react';
+import type { ChangeEvent } from 'react';
 import { useStore as useZustandStore } from 'zustand';
-import { Upload, Trash2, Plus, FileJson, FileText, Undo2, Redo2 } from 'lucide-react';
+import { Upload, Trash2, FileJson, FileText, Undo2, Redo2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { useStore, useActions, useUI } from '../store/useStore';
+import { useStore, useActions } from '../store/useStore';
 import { exportState, exportStateCSV, importState } from '../utils/exportImport';
 import { SearchBar } from './SearchBar';
 
 export const Toolbar = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const state = useStore(state => state);
-  const { clearCompleted, importState: loadState, addTask, setShowCompleted } = useActions();
-  const { showCompleted } = useUI();
+  const { clearCompleted, importState: loadState, setIsCompletedOverlayOpen } = useActions();
 
 
   const handleExportJSON = () => {
@@ -51,15 +50,12 @@ export const Toolbar = () => {
         </div>
 
         <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
-          <label className="flex items-center gap-2 cursor-pointer text-sm font-medium text-stone-600 hover:text-stone-900 transition-colors">
-            <input 
-              type="checkbox" 
-              checked={showCompleted} 
-              onChange={(e) => setShowCompleted(e.target.checked)} 
-              className="rounded border-stone-300 text-stone-600 focus:ring-stone-500 transition-all cursor-pointer"
-            />
-            Show Completed
-          </label>
+          <button
+            onClick={() => setIsCompletedOverlayOpen(true)}
+            className="p-2 text-sm font-medium text-stone-500 hover:text-stone-800 hover:bg-stone-100/50 rounded-lg transition-all"
+          >
+            Completed Tasks
+          </button>
           <div className="w-px h-6 bg-stone-200 mx-2 hidden sm:block"></div>
           
           <button

@@ -7,7 +7,7 @@ import type { Task, QuadrantId } from '../types';
 
 interface UIState {
   searchQuery: string;
-  showCompleted: boolean;
+  isCompletedOverlayOpen: boolean;
   collapsedQuadrants: QuadrantId[];
   _hasHydrated: boolean;
 }
@@ -26,7 +26,7 @@ interface StoreActions {
   toggleCompletion: (id: string) => void;
   clearCompleted: () => void;
   setSearchQuery: (query: string) => void;
-  setShowCompleted: (show: boolean) => void;
+  setIsCompletedOverlayOpen: (open: boolean) => void;
   toggleQuadrantCollapse: (quadrantId: QuadrantId) => void;
   importState: (newState: StoreState) => void;
   setHasHydrated: (state: boolean) => void;
@@ -36,7 +36,7 @@ type Store = StoreState & { actions: StoreActions };
 
 const initialUIState: UIState = {
   searchQuery: '',
-  showCompleted: true,
+  isCompletedOverlayOpen: false,
   collapsedQuadrants: [],
   _hasHydrated: false,
 };
@@ -154,10 +154,16 @@ export const useStore = create<Store>()(
           set((state) => {
             const task = state.tasks[id];
             if (!task) return state;
+            const isCompleting = !task.completed;
             return {
               tasks: {
                 ...state.tasks,
-                [id]: { ...task, completed: !task.completed, updatedAt: new Date().toISOString() },
+                [id]: { 
+                  ...task, 
+                  completed: isCompleting, 
+                  completedAt: isCompleting ? new Date().toISOString() : undefined,
+                  updatedAt: new Date().toISOString() 
+                },
               },
             };
           });
@@ -180,7 +186,7 @@ export const useStore = create<Store>()(
           });
         },
         setSearchQuery: (query) => set((state) => ({ ui: { ...state.ui, searchQuery: query } })),
-        setShowCompleted: (show) => set((state) => ({ ui: { ...state.ui, showCompleted: show } })),
+        setIsCompletedOverlayOpen: (show) => set((state) => ({ ui: { ...state.ui, isCompletedOverlayOpen: show } })),
         toggleQuadrantCollapse: (quadrantId) => set((state) => {
           const collapsed = state.ui.collapsedQuadrants;
           const newCollapsed = collapsed.includes(quadrantId)
